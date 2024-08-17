@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using API.DTOs;
 using API.Entities;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +59,31 @@ namespace API.Controllers
             await _userManager.AddToRoleAsync(newUser, "Member");
 
             return StatusCode(201);
+        }
+
+        [Authorize]
+        [HttpGet("currentUser")]
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
+            if (string.IsNullOrEmpty(userEmail))
+            {
+                return Unauthorized("User email claim is missing.");
+            }
+
+            var user = await _userManager.FindByEmailAsync(userEmail);
+
+            if (user == null)
+            {
+                return Unauthorized("User not found.");
+            }
+
+            return new UserDto
+            {
+                UserId = user.Id,
+                Token = await _tokenService.GenerateToken(user),
+            };
         }
     }
 }
