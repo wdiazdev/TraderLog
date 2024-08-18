@@ -1,6 +1,7 @@
 using System.Text;
 using API.Data;
 using API.Entities;
+using API.Middleware;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +47,8 @@ builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+builder.Services.AddCors();
+
 builder.Services.AddIdentityCore<User>(opt =>
 {
     opt.User.RequireUniqueEmail = true;
@@ -73,6 +76,8 @@ builder.Services.AddScoped<TokenService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -81,6 +86,11 @@ if (app.Environment.IsDevelopment())
         config.ConfigObject.AdditionalItems.Add("persistAuthorization", "true");
     });
 }
+
+app.UseCors(opt =>
+{
+    opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000");
+});
 
 app.UseAuthentication();
 
