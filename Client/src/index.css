@@ -1,11 +1,33 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary-bkg: 18 21 27;
+    --secondary-bkg: 42 49 78;
+    --color-content: 248 250 252;
+    --color-accent1: 255 0 0;
+    --color-accent2: 102 153 255;
+  }
+}
+.light {
+  --primary-bkg: 248 250 252;
+  --secondary-bkg: 18 21 27;
+  --color-content: 248 250 252;
+  --color-accent1: 255 0 0;
+  --color-accent2: 102 153 255;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   list-style: none;
   text-decoration: none;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
 ::-webkit-scrollbar {
