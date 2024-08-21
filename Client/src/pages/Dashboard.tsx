@@ -13,9 +13,9 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="flex">
+    <div className="flex gap-4 p-4 min-h-screen w-full bg-bkg-1">
       <SideBar handleTabChange={handleTabChange} />
-      <div className="flex flex-col w-full min-h-screen bg-bkg-1 text-content p-4">
+      <div className="flex flex-col w-full">
         <TopBar />
         {currentTab === "performance" ? (
           <Performance />

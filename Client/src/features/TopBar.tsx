@@ -6,7 +6,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle"
 export default function TopBar() {
   const { themeMode, toggleThemeMode } = useThemeMode()
   return (
-    <div className="flex items-center justify-between p-3 bg-bkg-2 rounded-lg">
+    <div className="flex items-center justify-between p-4 bg-bkg-2 rounded-lg">
       <h2 className="text-[22px] text-accent-2">Dashboard</h2>
 
       <div className="flex items-center gap-4 ">
@@ -18,7 +18,7 @@ export default function TopBar() {
           )}
         </button>
         <button>
-          <AccountCircleIcon className="text-white" />
+          <AccountCircleIcon className="text-accent-1" />
         </button>
       </div>
     </div>

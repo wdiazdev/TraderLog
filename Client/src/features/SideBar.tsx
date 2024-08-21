@@ -13,13 +13,13 @@ export default function SideBar({ handleTabChange }: Props) {
   const tabs: TabOptions[] = ["performance", "settings"]
 
   return (
-    <div className="w-[260px] min-h-screen bg-bkg-2">
+    <div className="w-[260px] bg-bkg-2 rounded-lg">
       <div className="flex flex-col items-center">
-        <h3 className="text-white text-[28px] text-center m-4">{dayjs().format("ddd, DD YYYY")}</h3>
+        <h3 className="text-white text-[24px] text-center m-4">{dayjs().format("ddd, DD YYYY")}</h3>
         <Avatar
           sx={{
             bgcolor: "#34B1AA",
-            fontSize: 36,
+            fontSize: 32,
             width: 56,
             height: 56,
           }}
@@ -27,23 +27,22 @@ export default function SideBar({ handleTabChange }: Props) {
           W
         </Avatar>
       </div>
-      <div>
-        <div className="mt-12">
-          {tabs.map((item) => (
-            <button
-              key={item}
-              className="flex justify-start items-center gap-4 w-full p-4 hover:bg-bkg-1 transition-colors duration-200 ease-in-out"
-              onClick={() => handleTabChange(item)}
-            >
-              {item === "performance" ? (
-                <SettingsIcon className="text-accent-2" />
-              ) : item === "settings" ? (
-                <QueryStatsIcon className="text-accent-2" />
-              ) : null}
-              <p className="text-white text-[18px]">{chartOneUpperCase(item)}</p>
-            </button>
-          ))}
-        </div>
+
+      <div className="mt-12">
+        {tabs.map((item) => (
+          <button
+            key={item}
+            className="flex justify-start items-center gap-4 w-full p-4 hover:bg-bkg-1 transition-colors duration-200 ease-in-out"
+            onClick={() => handleTabChange(item)}
+          >
+            {item === "performance" ? (
+              <SettingsIcon className="text-accent-2" />
+            ) : item === "settings" ? (
+              <QueryStatsIcon className="text-accent-2" />
+            ) : null}
+            <p className="text-white text-[18px]">{chartOneUpperCase(item)}</p>
+          </button>
+        ))}
       </div>
     </div>
   )
