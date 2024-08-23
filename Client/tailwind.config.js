@@ -13,6 +13,8 @@ export default {
           2: "rgb(var(--secondary-bkg) / <alpha-value>)",
         },
         content: "rgb(var(--color-content) / <alpha-value>)",
+        container: "rgb(var(--container-bkg) / <alpha-value>)",
+        containerText: "rgb(var(--container-text) / <alpha-value>)",
       },
     },
   },

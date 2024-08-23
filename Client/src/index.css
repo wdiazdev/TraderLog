@@ -11,6 +11,8 @@
     --color-content: 255 255 255;
     --color-accent1: 4 217 139;
     --color-accent2: 242 86 29;
+    --container-bkg: 226 232 240;
+    --container-text: 0 0 0;
   }
 }
 
@@ -20,6 +22,8 @@
   --color-content: 0 0 0;
   --color-accent1: 4 217 139;
   --color-accent2: 242 86 29;
+  --container-bkg: 19 23 46;
+  --container-text: 226 232 240;
 }
 
 * {
