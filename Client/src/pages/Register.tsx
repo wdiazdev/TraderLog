@@ -1,9 +1,21 @@
-import AppInputField from "../components/AppInputField"
 import { Link } from "react-router-dom"
 import HowToRegIcon from "@mui/icons-material/HowToReg"
 import AppButton from "../components/AppButton"
 
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+
+import { Box } from "@mui/material"
+
 export default function Register() {
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitting, isValid },
+  } = useForm({
+    mode: "onTouched",
+  })
+
   return (
     <div className="bg-bkg-1 w-full min-h-screen flex items-center justify-center p-4">
       <div
@@ -18,10 +30,10 @@ export default function Register() {
         </div>
         <h2 className="text-containerText text-[26px]">Register</h2>
 
-        <div className="w-full flex flex-col gap-6 mt-6">
-          <AppInputField autoFocus placeholder="Enter your email" type="email" />
-          <AppInputField placeholder="Enter your username" />
-          <AppInputField placeholder="Enter your password" />
+        <Box component="form" className="w-full flex flex-col gap-6 mt-6">
+          {/* <AppTextInput control={control} name="email" label="Email" />
+          <AppTextInput control={control} name="username" label="User Name" />
+          <AppTextInput control={control} name="password" label="Password" type="password" /> */}
 
           <span className="text-containerText">
             Already have an account?{" "}
@@ -34,7 +46,7 @@ export default function Register() {
           </span>
 
           <AppButton title="Register" />
-        </div>
+        </Box>
       </div>
     </div>
   )

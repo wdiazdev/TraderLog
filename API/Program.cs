@@ -93,9 +93,7 @@ app.UseCors(opt =>
 });
 
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 var scope = app.Services.CreateScope();

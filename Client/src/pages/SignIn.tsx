@@ -1,9 +1,37 @@
 import LoginIcon from "@mui/icons-material/Login"
-import AppInputField from "../components/AppInputField"
-import { Link } from "react-router-dom"
-import AppButton from "../components/AppButton"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { LoadingButton } from "@mui/lab"
+import { FieldValues, useForm } from "react-hook-form"
+import { useAppDispatch } from "../app/store/configureStore"
+import { signInUserAsync } from "../app/store/accountSlice"
+import { Box, TextField } from "@mui/material"
 
 export default function SignIn() {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors, isValid },
+  } = useForm({
+    mode: "onTouched",
+  })
+
+  const submitForm = async (data: FieldValues) => {
+    try {
+      const result = await dispatch(signInUserAsync(data))
+      if (result.meta.requestStatus === "fulfilled") {
+        navigate(location.state?.from || "/dashboard")
+      } else {
+        console.log("Dispatch was not successful")
+      }
+    } catch (error) {
+      console.log("error:", error)
+    }
+  }
+
   return (
     <div className="bg-bkg-1 w-full min-h-screen flex items-center justify-center p-4">
       <div
@@ -18,10 +46,33 @@ export default function SignIn() {
         </div>
         <h2 className="text-containerText text-[26px]"> Sign in</h2>
 
-        <div className="w-full flex flex-col gap-6 mt-6">
-          <AppInputField autoFocus placeholder="Enter your username" />
-          <AppInputField placeholder="Enter your password" />
-
+        <Box
+          component="form"
+          onSubmit={handleSubmit(submitForm)}
+          noValidate
+          className="w-full flex flex-col gap-6 mt-6"
+        >
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Email"
+            type="email"
+            autoFocus
+            {...register("email", { required: "Email is required" })}
+            error={!!errors.email}
+            helperText={errors?.email?.message as string}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Password"
+            type="password"
+            {...register("password", {
+              required: "Password is required",
+            })}
+            error={!!errors.password}
+            helperText={errors?.password?.message as string}
+          />
           <span className="text-containerText">
             Don't have an account?{" "}
             <Link
@@ -32,8 +83,17 @@ export default function SignIn() {
             </Link>
           </span>
 
-          <AppButton title="Sign In" />
-        </div>
+          <LoadingButton
+            loading={isSubmitting}
+            disabled={!isValid}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </LoadingButton>
+        </Box>
       </div>
     </div>
   )
