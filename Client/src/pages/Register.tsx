@@ -1,14 +1,15 @@
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import HowToRegIcon from "@mui/icons-material/HowToReg"
 import { FieldValues, useForm } from "react-hook-form"
 import { Box, TextField } from "@mui/material"
 import { useAppDispatch } from "../app/store/configureStore"
 import { LoadingButton } from "@mui/lab"
+import { registerUserAsync } from "../app/store/accountSlice"
+import { toast } from "react-toastify"
 
 export default function Register() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const location = useLocation()
 
   const {
     register,
@@ -18,18 +19,19 @@ export default function Register() {
     mode: "onTouched",
   })
 
-  // const submitForm = async (data: FieldValues) => {
-  //   try {
-  //     const result = await dispatch(signInUserAsync(data))
-  //     if (result.meta.requestStatus === "fulfilled") {
-  //       navigate(location.state?.from || "/dashboard")
-  //     } else {
-  //       console.log("Dispatch was not successful")
-  //     }
-  //   } catch (error) {
-  //     console.log("error:", error)
-  //   }
-  // }
+  const submitForm = async (data: FieldValues) => {
+    try {
+      const result = await dispatch(registerUserAsync(data))
+      if (result.meta.requestStatus === "fulfilled") {
+        toast.success("Registration successful - you can now sign in")
+        navigate("/login")
+      } else {
+        console.log("Dispatch was not successful")
+      }
+    } catch (error) {
+      console.log("error:", error)
+    }
+  }
 
   return (
     <div className="bg-bkg-1 w-full min-h-screen flex items-center justify-center p-4">
@@ -47,9 +49,9 @@ export default function Register() {
 
         <Box
           component="form"
-          // onSubmit={handleSubmit(submitForm)}
+          onSubmit={handleSubmit(submitForm)}
           noValidate
-          className="w-full flex flex-col gap-6 mt-6"
+          className="w-full flex flex-col gap-2 mt-6"
         >
           <TextField
             margin="normal"

@@ -1,8 +1,8 @@
 import { useState } from "react"
-import SideBar from "../features/SideBar"
-import Performance from "../features/Performance"
-import Settings from "../features/Settings"
-import { TabOptions } from "../model/dashboard"
+import SideBar from "../../components/SideBar"
+import Performance from "./Performance"
+import Settings from "./Settings"
+import { TabOptions } from "../../model/dashboard"
 
 export default function Dashboard() {
   const [currentTab, setCurrentTab] = useState<TabOptions>("performance")

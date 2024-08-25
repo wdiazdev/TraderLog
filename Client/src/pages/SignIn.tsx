@@ -52,7 +52,7 @@ export default function SignIn() {
           component="form"
           onSubmit={handleSubmit(submitForm)}
           noValidate
-          className="w-full flex flex-col gap-6 mt-6"
+          className="w-full flex flex-col gap-2 mt-6"
         >
           <TextField
             margin="normal"
