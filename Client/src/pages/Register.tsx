@@ -1,26 +1,41 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import HowToRegIcon from "@mui/icons-material/HowToReg"
-import AppButton from "../components/AppButton"
-
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-
-import { Box } from "@mui/material"
+import { FieldValues, useForm } from "react-hook-form"
+import { Box, TextField } from "@mui/material"
+import { useAppDispatch } from "../app/store/configureStore"
+import { LoadingButton } from "@mui/lab"
 
 export default function Register() {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const {
-    control,
+    register,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, errors, isValid },
   } = useForm({
     mode: "onTouched",
   })
+
+  // const submitForm = async (data: FieldValues) => {
+  //   try {
+  //     const result = await dispatch(signInUserAsync(data))
+  //     if (result.meta.requestStatus === "fulfilled") {
+  //       navigate(location.state?.from || "/dashboard")
+  //     } else {
+  //       console.log("Dispatch was not successful")
+  //     }
+  //   } catch (error) {
+  //     console.log("error:", error)
+  //   }
+  // }
 
   return (
     <div className="bg-bkg-1 w-full min-h-screen flex items-center justify-center p-4">
       <div
         className="bg-container w-[500px] pt-12 pb-12 
-      flex flex-col items-center justify-center p-4 rounded-xl"
+      flex flex-col items-center p-4 rounded-xl"
       >
         <div
           className="flex items-center justify-center w-12 h-12 rounded-full 
@@ -30,22 +45,71 @@ export default function Register() {
         </div>
         <h2 className="text-containerText text-[26px]">Register</h2>
 
-        <Box component="form" className="w-full flex flex-col gap-6 mt-6">
-          {/* <AppTextInput control={control} name="email" label="Email" />
-          <AppTextInput control={control} name="username" label="User Name" />
-          <AppTextInput control={control} name="password" label="Password" type="password" /> */}
-
-          <span className="text-containerText">
+        <Box
+          component="form"
+          // onSubmit={handleSubmit(submitForm)}
+          noValidate
+          className="w-full flex flex-col gap-6 mt-6"
+        >
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Email"
+            type="email"
+            autoFocus
+            {...register("email", { required: "Email is required" })}
+            error={!!errors.email}
+            helperText={errors?.email?.message as string}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Username"
+            type="text"
+            {...register("username", { required: "Username is required" })}
+            error={!!errors.username}
+            helperText={errors?.username?.message as string}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Password"
+            type="password"
+            {...register("password", {
+              required: "Password is required",
+            })}
+            error={!!errors.password}
+            helperText={errors?.password?.message as string}
+          />
+          <span>
             Already have an account?{" "}
             <Link
               to={"/login"}
-              className="hover:text-accent-2 transition-colors duration-200 ease-in-out"
+              className="hover:text-accent-1 font-bold 
+              transition-colors duration-200 ease-in-out"
             >
               Sign In
             </Link>
           </span>
 
-          <AppButton title="Register" />
+          <LoadingButton
+            loading={isSubmitting}
+            disabled={!isValid}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 3,
+              p: 2,
+              backgroundColor: "rgb(39,194,232)",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "rgb(71,204,237)", // Light red on hover
+              },
+            }}
+          >
+            Register
+          </LoadingButton>
         </Box>
       </div>
     </div>

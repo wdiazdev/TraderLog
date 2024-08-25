@@ -1,28 +1,46 @@
-import useThemeMode from "../app/hooks/useThemeMode"
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined"
-import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
+import { Button, Menu, MenuItem } from "@mui/material"
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import { signOut } from "../app/store/accountSlice"
+import { useAppDispatch, useAppSelector } from "../app/store/configureStore"
 
 export default function NavBar() {
-  const { themeMode, toggleThemeMode } = useThemeMode()
+  const dispatch = useAppDispatch()
+  const { user } = useAppSelector((state) => state.account)
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+
+  const open = Boolean(anchorEl)
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null)
+  }
+
   return (
-    <div className="absolute top-0 left-0 z-10 w-full bg-bkg-2 p-4 flex items-center justify-between">
+    <div className="w-full bg-bkg-2 p-4 flex items-center justify-between">
       <h2 className="text-[22px] text-accent-1">Project</h2>
       <div className="flex items-center gap-4 ">
-        <Link to={"/"} className="text-accent-1 text-[20px]">
-          Home
-        </Link>
-        <button onClick={toggleThemeMode}>
-          {themeMode === "dark" ? (
-            <LightModeOutlinedIcon className="text-accent-2" />
-          ) : (
-            <DarkModeOutlinedIcon className="text-accent-2" />
-          )}
-        </button>
-        <button>
+        <Button onClick={handleClick}>
           <AccountCircleIcon className="text-accent-1" />
-        </button>
+        </Button>
+
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <MenuItem component={Link} to="/" onClick={handleClose}>
+            Home
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              dispatch(signOut())
+              handleClose()
+            }}
+          >
+            Logout
+          </MenuItem>
+        </Menu>
       </div>
     </div>
   )

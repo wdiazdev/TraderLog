@@ -18,7 +18,7 @@ export default function SideBar({ handleTabChange }: Props) {
         <h3 className="text-white text-[24px] text-center m-4">{dayjs().format("ddd, DD YYYY")}</h3>
         <Avatar
           sx={{
-            bgcolor: "#34B1AA",
+            bgcolor: "rgb(71,204,237)",
             fontSize: 32,
             width: 56,
             height: 56,

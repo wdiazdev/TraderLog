@@ -5,6 +5,7 @@ import { FieldValues, useForm } from "react-hook-form"
 import { useAppDispatch } from "../app/store/configureStore"
 import { signInUserAsync } from "../app/store/accountSlice"
 import { Box, TextField } from "@mui/material"
+import { toast } from "react-toastify"
 
 export default function SignIn() {
   const dispatch = useAppDispatch()
@@ -23,6 +24,7 @@ export default function SignIn() {
     try {
       const result = await dispatch(signInUserAsync(data))
       if (result.meta.requestStatus === "fulfilled") {
+        toast.success("Login successful")
         navigate(location.state?.from || "/dashboard")
       } else {
         console.log("Dispatch was not successful")
@@ -44,7 +46,7 @@ export default function SignIn() {
         >
           <LoginIcon className="text-accent-2" />
         </div>
-        <h2 className="text-containerText text-[26px]"> Sign in</h2>
+        <h2 className="text-containerText text-[26px]">Sign in</h2>
 
         <Box
           component="form"
@@ -73,11 +75,12 @@ export default function SignIn() {
             error={!!errors.password}
             helperText={errors?.password?.message as string}
           />
-          <span className="text-containerText">
+          <span>
             Don't have an account?{" "}
             <Link
               to={"/register"}
-              className="hover:text-accent-2 transition-colors duration-200 ease-in-out"
+              className="hover:text-accent-1 font-bold 
+              transition-colors duration-200 ease-in-out"
             >
               Sign Up
             </Link>
@@ -89,7 +92,15 @@ export default function SignIn() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{
+              mt: 3,
+              p: 2,
+              backgroundColor: "rgb(39,194,232)",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "rgb(71,204,237)", // Light red on hover
+              },
+            }}
           >
             Sign In
           </LoadingButton>

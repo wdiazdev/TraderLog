@@ -6,24 +6,14 @@
 
 @layer base {
   :root {
-    --primary-bkg: 19 23 46;
-    --secondary-bkg: 27 32 64;
+    --primary-bkg: 18 18 18;
+    --secondary-bkg: 42 41 47;
     --color-content: 255 255 255;
-    --color-accent1: 4 217 139;
-    --color-accent2: 242 86 29;
+    --color-accent1: 39 194 232;
+    --color-accent2: 212 255 157;
     --container-bkg: 226 232 240;
     --container-text: 0 0 0;
   }
-}
-
-.light {
-  --primary-bkg: 226 232 240;
-  --secondary-bkg: 19 23 46;
-  --color-content: 0 0 0;
-  --color-accent1: 4 217 139;
-  --color-accent2: 242 86 29;
-  --container-bkg: 19 23 46;
-  --container-text: 226 232 240;
 }
 
 * {

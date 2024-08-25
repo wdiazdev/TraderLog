@@ -1,7 +1,7 @@
+import agent from "../api/agent"
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { User } from "../../model/account"
 import { FieldValues } from "react-hook-form"
-import agent from "../api/agent"
 import { router } from "../router/Routes"
 import { toast } from "react-toastify"
 
