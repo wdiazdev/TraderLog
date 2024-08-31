@@ -65,18 +65,18 @@ namespace API.Controllers
         [HttpGet("currentUser")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
-            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (string.IsNullOrEmpty(userEmail))
+            if (string.IsNullOrEmpty(userId))
             {
-                return Unauthorized("User email claim is missing.");
+                return Unauthorized("User ID claim is missing.");
             }
 
-            var user = await _userManager.FindByEmailAsync(userEmail);
+            var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
             {
-                return Unauthorized("User not found.");
+                 return Unauthorized("User not found.");
             }
 
             return new UserDto

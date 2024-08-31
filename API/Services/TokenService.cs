@@ -21,7 +21,7 @@ namespace API.Services
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
 
             var roles = await _userManager.GetRolesAsync(user);
