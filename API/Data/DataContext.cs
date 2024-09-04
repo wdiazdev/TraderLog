@@ -16,6 +16,12 @@ namespace API.Data
         {
             base.OnModelCreating(builder);
 
+            // builder.Entity<Account>()
+            //     .HasOne(a => a.User)
+            //     .WithMany()
+            //     .HasForeignKey(a => a.UserId)
+            //     .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<Role>()
                 .HasData(
                     new Role{Id = 1, Name = "Member",NormalizedName = "MEMBER"},
