@@ -4,5 +4,6 @@ namespace API.DTOs
     {
         public string Nickname { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public int InitialBalance { get; set; }
     }
 }

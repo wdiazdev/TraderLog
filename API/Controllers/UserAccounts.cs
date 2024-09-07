@@ -9,23 +9,24 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     [Authorize]
-    public class TradeAccountController : BaseApiController
+    public class UserAccountsController : BaseApiController
     {
         private readonly DataContext _context;
         private readonly UserManager<User> _userManager;
-        public TradeAccountController(DataContext context, UserManager<User> userManager)
+        public UserAccountsController(DataContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;
         }
 
-        [HttpPost]
+        [HttpPost("createAccount")]
         public async Task<ActionResult<Account>> CreateAccount(CreateAccountDto createAccountDto)
         {
             var account = new Account
-            {
+            {   
                 Nickname = createAccountDto.Nickname,
                 CreatedDate = createAccountDto.CreatedDate ?? DateTime.UtcNow,
+                InitialBalance = createAccountDto.InitialBalance > 0 ? createAccountDto.InitialBalance : 0,
                 Balance = 0,
                 Trades = new List<Trade>()
             };
@@ -36,8 +37,11 @@ namespace API.Controllers
 
             if (!result) return BadRequest(new ProblemDetails{ Title = "Problem creating account" });
 
+            account.Name = $"{account.CreatedDate:yyyyMMdd}-{account.Id}";
+
+            await _context.SaveChangesAsync();
+
             return Ok(account);
-           
         }
 
         [HttpGet]
@@ -63,7 +67,7 @@ namespace API.Controllers
             return Ok(account);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("deleteAccount/{id}")]
         public async Task<ActionResult> DeleteAccount(int id)
         {
             var account = await _context.Accounts.FindAsync(id);
@@ -79,7 +83,7 @@ namespace API.Controllers
             return Ok(new { message = "Account deleted successfully" });
         }
 
-        [HttpPut("nickname")]
+        [HttpPut("updateAccount")]
         public async Task<ActionResult<Account>> UpdateNickname(UpdateNicknameDto updateDto)
         {
             var account = await _context.Accounts.FindAsync(updateDto.Id);
