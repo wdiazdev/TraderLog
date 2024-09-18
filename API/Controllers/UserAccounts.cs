@@ -22,8 +22,14 @@ namespace API.Controllers
         [HttpPost("createAccount")]
         public async Task<ActionResult<Account>> CreateAccount(CreateAccountDto createAccountDto)
         {
+
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null) return Unauthorized();
+            
             var account = new Account
             {   
+                UserId = int.Parse(userId),
                 Nickname = createAccountDto.Nickname,
                 CreatedDate = createAccountDto.CreatedDate ?? DateTime.UtcNow,
                 InitialBalance = createAccountDto.InitialBalance > 0 ? createAccountDto.InitialBalance : 0,
@@ -47,7 +53,14 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Account>>> GetAllAccounts()
         {
-            var accounts = await _context.Accounts.ToListAsync();
+
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null) return Unauthorized();
+
+            var accounts = await _context.Accounts
+                .Where(u => u.UserId == int.Parse(userId))
+                .ToListAsync();
 
             if (accounts == null || accounts.Count == 0)
             {
@@ -60,7 +73,12 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccountById(int id)
         {
-            var account = await _context.Accounts.FindAsync(id);
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null) return Unauthorized();
+
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Id == id && a.UserId == int.Parse(userId));
 
             if (account == null) return NotFound(new ProblemDetails { Title = "Account not found" });
         
@@ -70,7 +88,12 @@ namespace API.Controllers
         [HttpDelete("deleteAccount/{id}")]
         public async Task<ActionResult> DeleteAccount(int id)
         {
-            var account = await _context.Accounts.FindAsync(id);
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null) return Unauthorized();
+
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Id == id && a.UserId == int.Parse(userId));
 
             if (account == null) return NotFound(new ProblemDetails { Title = "Account not found" });
 
@@ -86,7 +109,12 @@ namespace API.Controllers
         [HttpPut("updateAccount")]
         public async Task<ActionResult<Account>> UpdateNickname(UpdateNicknameDto updateDto)
         {
-            var account = await _context.Accounts.FindAsync(updateDto.Id);
+            var userId = _userManager.GetUserId(User);
+
+            if (userId == null) return Unauthorized();
+
+            var account = await _context.Accounts
+                .FirstOrDefaultAsync(a => a.Id == updateDto.Id && a.UserId == int.Parse(userId));
 
             if (account == null) return NotFound(new ProblemDetails { Title = "Account not found" });
   

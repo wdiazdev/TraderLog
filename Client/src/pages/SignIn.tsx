@@ -24,7 +24,7 @@ export default function SignIn() {
     try {
       const result = await dispatch(signInUserAsync(data))
       if (result.meta.requestStatus === "fulfilled") {
-        toast.success("Login successful")
+        toast.success("Login successful! Welcome!")
         navigate(location.state?.from || "/dashboard")
       } else {
         console.log("Dispatch was not successful")

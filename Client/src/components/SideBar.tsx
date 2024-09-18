@@ -1,38 +1,34 @@
-import { Avatar } from "@mui/material"
-import SettingsIcon from "@mui/icons-material/Settings"
-import QueryStatsIcon from "@mui/icons-material/QueryStats"
-import { TabOptions } from "../model/dashboard"
-import { chartOneUpperCase } from "../helper/chartOneUpperCase"
-import dayjs from "dayjs"
-import useJwtDecode from "../app/hook/useJwtDecode"
+import { Avatar } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import { TabOptions } from "../model/dashboard";
+import { chartOneUpperCase } from "../helper/chartOneUpperCase";
+import dayjs from "dayjs";
 
 interface Props {
-  handleTabChange: (tab: TabOptions) => void
+  handleTabChange: (tab: TabOptions) => void;
 }
 
-const tabs: TabOptions[] = ["performance", "settings"]
+const tabs: TabOptions[] = ["performance", "settings"];
 
 export default function SideBar({ handleTabChange }: Props) {
-  const { claimData } = useJwtDecode("name")
-
   return (
-    <div className="w-[260px] bg-bkg-2 rounded-lg">
+    <div className="w-[240px] bg-bkg-2 rounded-lg mt-[68px]">
       <div className="flex flex-col items-center">
-        <h3 className="text-white text-[24px] text-center m-4">{dayjs().format("ddd, DD YYYY")}</h3>
-        {claimData && (
-          <Avatar
-            sx={{
-              bgcolor: "rgb(39,194,232)",
-              fontSize: 32,
-              width: 56,
-              height: 56,
-            }}
-          >
-            {claimData.charAt(0).toUpperCase()}
-          </Avatar>
-        )}
+        <h3 className="text-white text-[24px] text-center m-4">
+          {dayjs().format("ddd, DD YYYY")}
+        </h3>
+        <Avatar
+          sx={{
+            bgcolor: "rgb(39,194,232)",
+            fontSize: 32,
+            width: 56,
+            height: 56,
+          }}
+        >
+          T
+        </Avatar>
       </div>
-
       <div className="mt-12">
         {tabs.map((item) => (
           <button
@@ -50,5 +46,5 @@ export default function SideBar({ handleTabChange }: Props) {
         ))}
       </div>
     </div>
-  )
+  );
 }

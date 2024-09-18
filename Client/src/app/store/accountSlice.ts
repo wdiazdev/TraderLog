@@ -93,7 +93,8 @@ export const accountSlice = createSlice({
       state.user = action.payload
       state.status = "idle"
     })
-    builder.addCase(fetchCurrentUserAsync.rejected, (state) => {
+    builder.addCase(fetchCurrentUserAsync.rejected, (state, action) => {
+      console.log("action:", action.payload)
       state.user = null
       state.status = "idle"
       localStorage.removeItem("user")

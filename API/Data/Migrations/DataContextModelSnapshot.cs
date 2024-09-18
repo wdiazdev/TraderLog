@@ -38,6 +38,9 @@ namespace API.Data.Migrations
                     b.Property<string>("Nickname")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.ToTable("Accounts");

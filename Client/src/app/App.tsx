@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
+      <ToastContainer position="top-center" hideProgressBar theme="colored" />
       <NavBar />
       {isLoading ? <LoadingScreen message="Initializing app..." /> : <Outlet />}
     </>
