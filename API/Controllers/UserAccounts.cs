@@ -22,8 +22,7 @@ namespace API.Controllers
         [HttpPost("createAccount")]
         public async Task<ActionResult<Account>> CreateAccount(CreateAccountDto createAccountDto)
         {
-
-            var userId = _userManager.GetUserId(User);
+            var userId = GetUserId();
 
             if (userId == null) return Unauthorized();
             
@@ -53,8 +52,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Account>>> GetAllAccounts()
         {
-
-            var userId = _userManager.GetUserId(User);
+            var userId = GetUserId();
 
             if (userId == null) return Unauthorized();
 
@@ -73,7 +71,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccountById(int id)
         {
-            var userId = _userManager.GetUserId(User);
+            var userId = GetUserId();
 
             if (userId == null) return Unauthorized();
 
@@ -88,7 +86,7 @@ namespace API.Controllers
         [HttpDelete("deleteAccount/{id}")]
         public async Task<ActionResult> DeleteAccount(int id)
         {
-            var userId = _userManager.GetUserId(User);
+            var userId = GetUserId();
 
             if (userId == null) return Unauthorized();
 
@@ -109,7 +107,7 @@ namespace API.Controllers
         [HttpPut("updateAccount")]
         public async Task<ActionResult<Account>> UpdateNickname(UpdateNicknameDto updateDto)
         {
-            var userId = _userManager.GetUserId(User);
+            var userId = GetUserId();
 
             if (userId == null) return Unauthorized();
 
@@ -125,6 +123,11 @@ namespace API.Controllers
             if (!result) return BadRequest(new ProblemDetails { Title = "Problem updating nickname" });
 
             return Ok(account);
+        }
+
+        private string GetUserId()
+        {
+            return _userManager.GetUserId(User);
         }
     }
 }
