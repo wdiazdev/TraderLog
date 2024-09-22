@@ -1,4 +1,4 @@
-export interface UserAccounts {
+export interface TradeAccounts {
   id: number;
   userId: number;
   name: string;

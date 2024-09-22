@@ -1,19 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { UserAccounts } from "../../model/userAccounts";
+import { TradeAccounts } from "../../model/tradeAccounts";
 import agent from "../api/agent";
 
-interface UserAccountsState {
-  accounts: UserAccounts | null;
+interface TradeAccountsState {
+  accounts: TradeAccounts[] | null;
   status: string;
 }
 
-const initialState: UserAccountsState = {
+const initialState: TradeAccountsState = {
   accounts: null,
   status: "idle",
 };
 
-export const getAllAccountsAsync = createAsyncThunk<UserAccounts>(
-  "userAccounts/getAllAccounts",
+export const fetchTradeAccountsAsync = createAsyncThunk<TradeAccounts[]>(
+  "tradeAccounts/fetchTradeAccounts",
   async (_, thunkAPI) => {
     try {
       const accounts = await agent.UserAccounts.getAllAccounts();
@@ -24,24 +24,24 @@ export const getAllAccountsAsync = createAsyncThunk<UserAccounts>(
   }
 );
 
-export const accountSlice = createSlice({
-  name: "userAccounts",
+export const tradeAccountSlice = createSlice({
+  name: "tradeAccounts",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     // GET ALL USER ACCOUNTS
-    builder.addCase(getAllAccountsAsync.pending, (state) => {
-      state.status = "pendingGetAllAccounts";
+    builder.addCase(fetchTradeAccountsAsync.pending, (state) => {
+      state.status = "pendingFetchTradeAccounts";
     });
-    builder.addCase(getAllAccountsAsync.fulfilled, (state, action) => {
+    builder.addCase(fetchTradeAccountsAsync.fulfilled, (state, action) => {
       state.accounts = action.payload;
       state.status = "idle";
     });
-    builder.addCase(getAllAccountsAsync.rejected, (state, action) => {
+    builder.addCase(fetchTradeAccountsAsync.rejected, (state, action) => {
       console.log("action:", action.payload);
       state.status = "idle";
     });
   },
 });
 
-export const {} = accountSlice.actions;
+// export const {} = tradeAccountSlice.actions;

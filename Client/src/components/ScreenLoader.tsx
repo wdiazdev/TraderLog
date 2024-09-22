@@ -1,12 +1,12 @@
-import { CircularProgress, Typography } from "@mui/material"
+import { CircularProgress, Typography } from "@mui/material";
 
 interface Props {
-  size?: number
-  message?: string
-  variant?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+  size?: number;
+  message?: string;
+  variant?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
-export default function LoadingScreen({
+export default function ScreenLoader({
   size = 40,
   message = "Loading...",
   variant = "h6",
@@ -18,5 +18,5 @@ export default function LoadingScreen({
         {message}
       </Typography>
     </div>
-  )
+  );
 }
