@@ -16,7 +16,7 @@ export const fetchTradeAccountsAsync = createAsyncThunk<TradeAccounts[]>(
   "tradeAccounts/fetchTradeAccounts",
   async (_, thunkAPI) => {
     try {
-      const accounts = await agent.UserAccounts.getAllAccounts();
+      const accounts = await agent.TradeAccounts.getAllAccounts();
       return accounts;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });

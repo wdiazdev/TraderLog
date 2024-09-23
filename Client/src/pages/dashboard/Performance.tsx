@@ -25,18 +25,6 @@ export default function Performance() {
     }
   }, [accounts, status]);
 
-  if (status === "pendingFetchTradeAccounts") return <ScreenLoader size={28} />;
-
-  if (!accounts?.length) {
-    return (
-      <div className="flex items-center h-full p-4">
-        <p className="text-white">
-          No Accounts Found. Please create a new account.
-        </p>
-      </div>
-    );
-  }
-
   const accountOptions =
     accounts?.map((a) => ({
       label: a.name,
@@ -47,28 +35,54 @@ export default function Performance() {
     setSelectedAccount(selectedOption);
   };
 
-  return (
-    <div className="flex flex-col items-center h-full p-4">
-      {accountOptions && accountOptions.length > 0 && (
-        <Select
-          className="basic-single"
-          classNamePrefix="select accounts"
-          value={selectedAccount}
-          isDisabled={accountOptions.length <= 1}
-          onChange={handleAccountChange}
-          name="accounts"
-          options={accountOptions}
-        />
-      )}
+  const renderSelectedAccount = accounts?.find(
+    (account) => account.id === selectedAccount?.value
+  );
 
-      <div className="flex items-center justify-start gap-4 w-full">
-        <h2 className="text-white">Account : {selectedAccount?.label}</h2>
-      </div>
-      <div className="flex justify-between items-center gap-6 w-auto">
-        <PerformanceWidget label="Total P&L" value="$5,378.53" />
-        <PerformanceWidget label="% Profitable" value="0.61" />
-        <PerformanceWidget label="Trade win %" value="0.73" />
-      </div>
-    </div>
+  return (
+    <>
+      {status === "pendingFetchTradeAccounts" ? (
+        <ScreenLoader size={28} />
+      ) : accountOptions.length > 0 ? (
+        <div className="flex flex-col items-center h-full p-4">
+          <Select
+            className="basic-single"
+            classNamePrefix="select accounts"
+            value={selectedAccount}
+            isDisabled={accountOptions.length <= 1}
+            onChange={handleAccountChange}
+            name="accounts"
+            options={accountOptions}
+          />
+
+          {renderSelectedAccount && (
+            <>
+              <div className="flex items-center justify-start gap-4 w-full">
+                <h2 className="text-white">
+                  Account : {renderSelectedAccount.name}
+                </h2>
+              </div>
+              <div className="flex justify-between items-center gap-6 w-auto">
+                <PerformanceWidget
+                  label="Balance"
+                  value={
+                    renderSelectedAccount?.initialBalance +
+                    renderSelectedAccount.balance.toString()
+                  }
+                />
+                <PerformanceWidget label="% Profitable" value="0.61" />
+                <PerformanceWidget label="Trade win %" value="0.73" />
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-full p-4">
+          <p className="text-white">
+            No Accounts Found. Please create a new account.
+          </p>
+        </div>
+      )}
+    </>
   );
 }

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 namespace API.Controllers
 {
     [Authorize]
-    public class UserAccountsController : BaseApiController
+    public class TradeAccountsController : BaseApiController
     {
         private readonly DataContext _context;
         private readonly UserManager<User> _userManager;
-        public UserAccountsController(DataContext context, UserManager<User> userManager)
+        public TradeAccountsController(DataContext context, UserManager<User> userManager)
         {
             _context = context;
             _userManager = userManager;

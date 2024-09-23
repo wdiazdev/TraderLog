@@ -61,15 +61,15 @@ const Account = {
   currentUser: () => requests.get("account/currentUser"),
 };
 
-const UserAccounts = {
+const TradeAccounts = {
   createAccount: (values: any) =>
-    requests.post("userAccounts/createAccount", values),
-  getAllAccounts: () => requests.get("userAccounts"),
-  getAccountById: (id: number) => requests.get(`userAccounts/${id}`),
+    requests.post("tradeAccounts/createAccount", values),
+  getAllAccounts: () => requests.get("tradeAccounts"),
+  getAccountById: (id: number) => requests.get(`tradeAccounts/${id}`),
   deleteAccount: (id: number) =>
-    requests.delete(`userAccounts/deleteAccount/${id}`),
+    requests.delete(`tradeAccounts/deleteAccount/${id}`),
   updateAccount: (values: any) =>
-    requests.put("userAccounts/updateAccount", values),
+    requests.put("tradeAccounts/updateAccount", values),
 };
 
 const TestErrors = {
@@ -82,7 +82,7 @@ const TestErrors = {
 
 const agent = {
   Account,
-  UserAccounts,
+  TradeAccounts,
   TestErrors,
 };
 
