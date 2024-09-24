@@ -12,15 +12,13 @@ export default function Dashboard() {
   const [currentTab, setCurrentTab] = useState<TabOptions>("performance");
 
   useEffect(() => {
-    const fetchTradeAccounts = async () => {
+    (async () => {
       try {
         await dispatch(fetchTradeAccountsAsync());
       } catch (error) {
         console.log("error:", error);
       }
-    };
-
-    fetchTradeAccounts();
+    })();
   }, [dispatch]);
 
   const handleTabChange = (tab: TabOptions) => {

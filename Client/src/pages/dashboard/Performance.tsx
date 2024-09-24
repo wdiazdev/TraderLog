@@ -3,6 +3,7 @@ import { useAppSelector } from "../../app/store/configureStore";
 import PerformanceWidget from "../../components/PerformanceWidget";
 import ScreenLoader from "../../components/ScreenLoader";
 import Select from "react-select";
+import formatToCurrency from "../../helper/formatToCurrency";
 
 type AccountOption = {
   label: string;
@@ -11,6 +12,7 @@ type AccountOption = {
 
 export default function Performance() {
   const { status, accounts } = useAppSelector((state) => state.tradeAccounts);
+  console.log("accounts:", accounts);
 
   const [selectedAccount, setSelectedAccount] = useState<AccountOption | null>(
     null
@@ -65,10 +67,7 @@ export default function Performance() {
               <div className="flex justify-between items-center gap-6 w-auto">
                 <PerformanceWidget
                   label="Balance"
-                  value={
-                    renderSelectedAccount?.initialBalance +
-                    renderSelectedAccount.balance.toString()
-                  }
+                  value={formatToCurrency(renderSelectedAccount.balance)}
                 />
                 <PerformanceWidget label="% Profitable" value="0.61" />
                 <PerformanceWidget label="Trade win %" value="0.73" />

@@ -23,16 +23,14 @@ namespace API.Controllers
         public async Task<ActionResult<Account>> CreateAccount(CreateAccountDto createAccountDto)
         {
             var userId = GetUserId();
-
-            if (userId == null) return Unauthorized();
             
             var account = new Account
             {   
-                UserId = int.Parse(userId),
+                UserId = userId,
                 Nickname = createAccountDto.Nickname,
                 CreatedDate = createAccountDto.CreatedDate ?? DateTime.UtcNow,
-                InitialBalance = createAccountDto.InitialBalance > 0 ? createAccountDto.InitialBalance : 0,
-                Balance = 0,
+                InitialBalance = createAccountDto.InitialBalance ?? 0,
+                Balance = createAccountDto.InitialBalance ?? 0,
                 Trades = new List<Trade>()
             };
 
@@ -54,15 +52,18 @@ namespace API.Controllers
         {
             var userId = GetUserId();
 
-            if (userId == null) return Unauthorized();
-
             var accounts = await _context.Accounts
-                .Where(u => u.UserId == int.Parse(userId))
+                .Where(u => u.UserId == userId)
                 .ToListAsync();
 
             if (accounts == null || accounts.Count == 0)
             {
                 return NotFound(new ProblemDetails { Title = "No accounts found" });
+            }
+
+            foreach (var account in accounts)
+            {
+                account.Balance = CalculateBalance(account.Balance, account.Trades);
             }
 
             return Ok(accounts);
@@ -73,10 +74,8 @@ namespace API.Controllers
         {
             var userId = GetUserId();
 
-            if (userId == null) return Unauthorized();
-
             var account = await _context.Accounts
-                .FirstOrDefaultAsync(a => a.Id == id && a.UserId == int.Parse(userId));
+                .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
 
             if (account == null) return NotFound(new ProblemDetails { Title = "Account not found" });
         
@@ -88,10 +87,8 @@ namespace API.Controllers
         {
             var userId = GetUserId();
 
-            if (userId == null) return Unauthorized();
-
             var account = await _context.Accounts
-                .FirstOrDefaultAsync(a => a.Id == id && a.UserId == int.Parse(userId));
+                .FirstOrDefaultAsync(a => a.Id == id && a.UserId == userId);
 
             if (account == null) return NotFound(new ProblemDetails { Title = "Account not found" });
 
@@ -109,10 +106,8 @@ namespace API.Controllers
         {
             var userId = GetUserId();
 
-            if (userId == null) return Unauthorized();
-
             var account = await _context.Accounts
-                .FirstOrDefaultAsync(a => a.Id == updateDto.Id && a.UserId == int.Parse(userId));
+                .FirstOrDefaultAsync(a => a.Id == updateDto.Id && a.UserId == userId);
 
             if (account == null) return NotFound(new ProblemDetails { Title = "Account not found" });
   
@@ -125,9 +120,16 @@ namespace API.Controllers
             return Ok(account);
         }
 
-        private string GetUserId()
+        private int GetUserId()
         {
-            return _userManager.GetUserId(User);
+            var userId = _userManager.GetUserId(User);
+            return int.Parse(userId);
+        }   
+
+        private static float CalculateBalance(float balance, List<Trade> trades)
+        {
+            var tradeTotal = trades.Sum(t => t.Amount);
+            return balance + tradeTotal;
         }
     }
 }
