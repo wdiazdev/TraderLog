@@ -5,6 +5,7 @@ import Settings from "./Settings";
 import { TabOptions } from "../../model/dashboard";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { fetchTradeAccountsAsync } from "../../app/store/userAccountsSlide";
+import ManageAccounts from "./ManageAccounts";
 
 export default function Dashboard() {
   const dispatch = useAppDispatch();
@@ -28,11 +29,13 @@ export default function Dashboard() {
   return (
     <div className="flex gap-4 p-2 min-h-screen w-full bg-bkg-1">
       <SideBar handleTabChange={handleTabChange} />
-      <div className="flex flex-col w-full mt-[68px] rounded-lg">
+      <div className="flex flex-col w-full mt-[52px] rounded-lg">
         {currentTab === "performance" ? (
           <Performance />
         ) : currentTab === "settings" ? (
           <Settings />
+        ) : currentTab === "accounts" ? (
+          <ManageAccounts />
         ) : null}
       </div>
     </div>

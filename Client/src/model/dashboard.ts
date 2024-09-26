@@ -1,1 +1,1 @@
-export type TabOptions = "performance" | "settings"
+export type TabOptions = "performance" | "settings" | "accounts";

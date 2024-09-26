@@ -23,14 +23,17 @@ export default function NavBar() {
   };
 
   return (
-    <div className="w-full bg-bkg-2 p-4 flex items-center justify-between absolute top-0 left-0">
+    <div className="w-full bg-bkg-2 py-1 px-3 flex items-center justify-between absolute top-0 left-0">
       <Link to={"/"} className="text-[22px] text-accent-1">
         Project
       </Link>
       <div className="flex items-center gap-4 ">
         {user && (
           <Button onClick={handleClick}>
-            <AccountCircleIcon className="text-accent-1" />
+            <AccountCircleIcon
+              className="text-accent-1"
+              sx={{ fontSize: 30 }}
+            />
           </Button>
         )}
 
