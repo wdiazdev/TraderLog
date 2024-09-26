@@ -54,6 +54,7 @@ namespace API.Controllers
 
             var accounts = await _context.Accounts
                 .Where(u => u.UserId == userId)
+                .OrderByDescending(a => a.CreatedDate)
                 .ToListAsync();
 
             if (accounts == null || accounts.Count == 0)

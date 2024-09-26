@@ -3,11 +3,12 @@ import SideBar from "../../components/SideBar";
 import Performance from "./Performance";
 import Settings from "./Settings";
 import { TabOptions } from "../../model/dashboard";
-import { useAppDispatch } from "../../app/store/configureStore";
-import { fetchTradeAccountsAsync } from "../../app/store/userAccountsSlide";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { fetchTradeAccountsAsync } from "../../app/store/tradeAccountsSlice";
 import ManageAccounts from "./ManageAccounts";
 
 export default function Dashboard() {
+  const { status } = useAppSelector((state) => state.tradeAccounts);
   const dispatch = useAppDispatch();
 
   const [currentTab, setCurrentTab] = useState<TabOptions>("performance");

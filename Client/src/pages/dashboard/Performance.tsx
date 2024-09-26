@@ -12,7 +12,6 @@ type AccountOption = {
 
 export default function Performance() {
   const { status, accounts } = useAppSelector((state) => state.tradeAccounts);
-  console.log("accounts:", accounts);
 
   const [selectedAccount, setSelectedAccount] = useState<AccountOption | null>(
     null
@@ -78,7 +77,8 @@ export default function Performance() {
       ) : (
         <div className="flex justify-center items-center h-full p-4">
           <p className="text-white">
-            No Accounts Found. Please create a new account.
+            Oops! No accounts found linked to your profile. Please create a new
+            account.
           </p>
         </div>
       )}

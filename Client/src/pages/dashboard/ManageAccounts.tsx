@@ -1,7 +1,96 @@
+import {
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+} from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import ScreenLoader from "../../components/ScreenLoader";
+import formatToCurrency from "../../helper/formatToCurrency";
+import formatDate from "../../helper/formatDate";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { LoadingButton } from "@mui/lab";
+import { deleteTradeAccountAsync } from "../../app/store/tradeAccountsSlice";
+
 export default function ManageAccounts() {
+  const { status, accounts } = useAppSelector((state) => state.tradeAccounts);
+  const dispatch = useAppDispatch();
+
   return (
-    <div className="flex justify-center items-center h-full">
-      <h1 className="text-content text-[28px]">Manage Accounts</h1>
-    </div>
+    <>
+      {status === "pendingFetchTradeAccounts" ? (
+        <ScreenLoader size={28} />
+      ) : accounts && accounts.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead className="bg-bkg-2">
+              <TableRow>
+                <TableCell sx={{ color: "white" }}>Name</TableCell>
+                <TableCell align="center" sx={{ color: "white" }}>
+                  Created Date
+                </TableCell>
+                <TableCell align="center" sx={{ color: "white" }}>
+                  Balance
+                </TableCell>
+                <TableCell align="center" sx={{ color: "white" }}></TableCell>
+                <TableCell align="center" sx={{ color: "white" }}></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {accounts.map((account) => (
+                <TableRow
+                  key={account.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {account.name}
+                  </TableCell>
+                  <TableCell align="center">
+                    {formatDate(account.createdDate)}
+                  </TableCell>
+                  <TableCell align="center">
+                    {formatToCurrency(account.balance)}
+                  </TableCell>
+                  <TableCell align="center">
+                    <EditIcon />
+                  </TableCell>
+                  <TableCell align="center">
+                    <LoadingButton
+                      size="small"
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "rgb(42 41 47)",
+                        "&:hover": {
+                          backgroundColor: "red",
+                        },
+                      }}
+                      onClick={() =>
+                        dispatch(
+                          deleteTradeAccountAsync({ accountId: account.id })
+                        )
+                      }
+                      loading={status === "pendingDeleteTradeAccount"}
+                    >
+                      <DeleteIcon />
+                    </LoadingButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <div className="flex justify-center items-center h-full p-4">
+          <p className="text-white">
+            Oops! No accounts found linked to your profile. Please create a new
+            account.
+          </p>
+        </div>
+      )}
+    </>
   );
 }

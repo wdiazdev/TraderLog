@@ -1,4 +1,3 @@
-import { Avatar } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
@@ -19,18 +18,8 @@ export default function SideBar({ handleTabChange }: Props) {
         <h3 className="text-white text-[24px] text-center m-4">
           {dayjs().format("ddd, DD YYYY")}
         </h3>
-        <Avatar
-          sx={{
-            bgcolor: "rgb(39,194,232)",
-            fontSize: 32,
-            width: 56,
-            height: 56,
-          }}
-        >
-          T
-        </Avatar>
       </div>
-      <div className="mt-12">
+      <div className="mt-8">
         {tabs.map((item) => (
           <button
             key={item}

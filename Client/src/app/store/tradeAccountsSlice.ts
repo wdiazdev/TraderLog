@@ -24,12 +24,23 @@ export const fetchTradeAccountsAsync = createAsyncThunk<TradeAccounts[]>(
   }
 );
 
+export const deleteTradeAccountAsync = createAsyncThunk<
+  void,
+  { accountId: number }
+>("tradeAccounts/deleteTradeAccount", async ({ accountId }, thunkAPI) => {
+  try {
+    await agent.TradeAccounts.deleteAccount(accountId);
+  } catch (error: any) {
+    return thunkAPI.rejectWithValue({ error: error.data });
+  }
+});
+
 export const tradeAccountSlice = createSlice({
   name: "tradeAccounts",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // GET ALL USER ACCOUNTS
+    // GET ALL TRADE ACCOUNTS
     builder.addCase(fetchTradeAccountsAsync.pending, (state) => {
       state.status = "pendingFetchTradeAccounts";
     });
@@ -38,6 +49,17 @@ export const tradeAccountSlice = createSlice({
       state.status = "idle";
     });
     builder.addCase(fetchTradeAccountsAsync.rejected, (state, action) => {
+      console.log("action:", action.payload);
+      state.status = "idle";
+    });
+    // DELETE TRADE ACCOUNT
+    builder.addCase(deleteTradeAccountAsync.pending, (state) => {
+      state.status = "pendingDeleteTradeAccount";
+    });
+    builder.addCase(deleteTradeAccountAsync.fulfilled, (state) => {
+      state.status = "idle";
+    });
+    builder.addCase(deleteTradeAccountAsync.rejected, (state, action) => {
       console.log("action:", action.payload);
       state.status = "idle";
     });
