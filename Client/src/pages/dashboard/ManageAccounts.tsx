@@ -73,7 +73,9 @@ export default function ManageAccounts() {
                           deleteTradeAccountAsync({ accountId: account.id })
                         )
                       }
-                      loading={status === "pendingDeleteTradeAccount"}
+                      loading={
+                        status === "pendingDeleteTradeAccount" + account.id
+                      }
                     >
                       <DeleteIcon />
                     </LoadingButton>

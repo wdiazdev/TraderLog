@@ -53,8 +53,8 @@ export const tradeAccountSlice = createSlice({
       state.status = "idle";
     });
     // DELETE TRADE ACCOUNT
-    builder.addCase(deleteTradeAccountAsync.pending, (state) => {
-      state.status = "pendingDeleteTradeAccount";
+    builder.addCase(deleteTradeAccountAsync.pending, (state, action) => {
+      state.status = "pendingDeleteTradeAccount" + action.meta.arg.accountId;
     });
     builder.addCase(deleteTradeAccountAsync.fulfilled, (state) => {
       state.status = "idle";
