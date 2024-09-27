@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TradeAccounts } from "../../model/tradeAccounts";
+import { TradeAccount } from "../../model/tradeAccounts";
 import agent from "../api/agent";
 
 interface TradeAccountsState {
-  accounts: TradeAccounts[] | null;
+  accounts: TradeAccount[] | null;
   status: string;
 }
 
@@ -12,7 +12,7 @@ const initialState: TradeAccountsState = {
   status: "idle",
 };
 
-export const fetchTradeAccountsAsync = createAsyncThunk<TradeAccounts[]>(
+export const fetchTradeAccountsAsync = createAsyncThunk<TradeAccount[]>(
   "tradeAccounts/fetchTradeAccounts",
   async (_, thunkAPI) => {
     try {

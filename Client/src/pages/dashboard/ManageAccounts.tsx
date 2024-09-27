@@ -14,11 +14,20 @@ import formatDate from "../../helper/formatDate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { LoadingButton } from "@mui/lab";
-import { deleteTradeAccountAsync } from "../../app/store/tradeAccountsSlice";
+import {
+  deleteTradeAccountAsync,
+  fetchTradeAccountsAsync,
+} from "../../app/store/tradeAccountsSlice";
+import { TradeAccount } from "../../model/tradeAccounts";
 
 export default function ManageAccounts() {
   const { status, accounts } = useAppSelector((state) => state.tradeAccounts);
   const dispatch = useAppDispatch();
+
+  const handleDeleteAccount = async (account: TradeAccount) => {
+    await dispatch(deleteTradeAccountAsync({ accountId: account.id }));
+    await dispatch(fetchTradeAccountsAsync());
+  };
 
   return (
     <>
@@ -68,11 +77,7 @@ export default function ManageAccounts() {
                           backgroundColor: "red",
                         },
                       }}
-                      onClick={() =>
-                        dispatch(
-                          deleteTradeAccountAsync({ accountId: account.id })
-                        )
-                      }
+                      onClick={() => handleDeleteAccount(account)}
                       loading={
                         status === "pendingDeleteTradeAccount" + account.id
                       }
