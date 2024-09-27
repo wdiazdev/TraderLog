@@ -1,9 +1,11 @@
-import { createBrowserRouter } from "react-router-dom"
-import App from "../App"
-import Dashboard from "../../pages/dashboard"
-import Home from "../../pages/Home"
-import Register from "../../pages/Register"
-import SignIn from "../../pages/SignIn"
+import { lazy, Suspense } from "react";
+import { createBrowserRouter } from "react-router-dom";
+import App from "../App";
+import Home from "../../pages/Home";
+import Register from "../../pages/Register";
+import SignIn from "../../pages/SignIn";
+
+const Dashboard = lazy(() => import("../../pages/dashboard"));
 
 export const router = createBrowserRouter([
   {
@@ -16,7 +18,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Dashboard />
+          </Suspense>
+        ),
       },
       {
         path: "login",
@@ -28,4 +34,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-])
+]);
