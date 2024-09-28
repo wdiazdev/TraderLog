@@ -4,6 +4,7 @@ import App from "../App";
 import Home from "../../pages/Home";
 import Register from "../../pages/Register";
 import SignIn from "../../pages/SignIn";
+import ScreenLoader from "../../components/ScreenLoader";
 
 const Dashboard = lazy(() => import("../../pages/dashboard"));
 
@@ -19,7 +20,7 @@ export const router = createBrowserRouter([
       {
         path: "dashboard",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<ScreenLoader />}>
             <Dashboard />
           </Suspense>
         ),

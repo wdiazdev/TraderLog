@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        "home-bg": "url('/assets/bg-home.jpg')",
+      },
       colors: {
         accent: {
           1: "rgb(var(--color-accent1) / <alpha-value>)",
@@ -19,4 +22,4 @@ export default {
     },
   },
   plugins: [],
-}
+};
