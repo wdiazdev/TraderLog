@@ -26,7 +26,7 @@ export const fetchTradeAccountsAsync = createAsyncThunk<TradeAccount[]>(
 
 export const updateTradeAccountAsync = createAsyncThunk<
   TradeAccount,
-  { accountId: number; newNickname: string }
+  { id: number; nickname: string }
 >("tradeAccounts/updateTradeAccount", async (values, thunkAPI) => {
   try {
     const updatedAccount = await agent.TradeAccounts.updateAccount(values);

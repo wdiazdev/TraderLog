@@ -5,7 +5,7 @@ import Settings from "./Settings";
 import { TabOptions } from "../../model/dashboard";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { fetchTradeAccountsAsync } from "../../app/store/tradeAccountsSlice";
-import ManageAccounts from "./ManageAccounts";
+import ManageAccounts from "./manageAccount/ManageAccounts";
 
 export default function Dashboard() {
   const dispatch = useAppDispatch();

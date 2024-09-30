@@ -42,6 +42,11 @@ namespace API.Controllers
 
             account.Name = $"{account.CreatedDate:yyyyMMdd}-{account.Id}";
 
+            if (string.IsNullOrEmpty(account.Nickname))
+            {
+                account.Nickname = account.Name;
+            }
+
             await _context.SaveChangesAsync();
 
             return Ok(account);
@@ -108,11 +113,12 @@ namespace API.Controllers
             var userId = GetUserId();
 
             var account = await _context.Accounts
+                .AsTracking()
                 .FirstOrDefaultAsync(a => a.Id == updateDto.Id && a.UserId == userId);
 
             if (account == null) return NotFound(new ProblemDetails { Title = "Account not found" });
   
-            account.Nickname = updateDto.NewNickname;
+            account.Nickname = updateDto.Nickname;
 
             var result = await _context.SaveChangesAsync() > 0;
 

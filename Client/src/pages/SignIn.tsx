@@ -1,16 +1,16 @@
-import LoginIcon from "@mui/icons-material/Login"
-import { Link, useLocation, useNavigate } from "react-router-dom"
-import { LoadingButton } from "@mui/lab"
-import { FieldValues, useForm } from "react-hook-form"
-import { useAppDispatch } from "../app/store/configureStore"
-import { signInUserAsync } from "../app/store/accountSlice"
-import { Box, TextField } from "@mui/material"
-import { toast } from "react-toastify"
+import LoginIcon from "@mui/icons-material/Login";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LoadingButton } from "@mui/lab";
+import { FieldValues, useForm } from "react-hook-form";
+import { useAppDispatch } from "../app/store/configureStore";
+import { signInUserAsync } from "../app/store/accountSlice";
+import { Box, TextField } from "@mui/material";
+import { toast } from "react-toastify";
 
 export default function SignIn() {
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const location = useLocation()
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     register,
@@ -18,21 +18,21 @@ export default function SignIn() {
     formState: { isSubmitting, errors, isValid },
   } = useForm({
     mode: "onTouched",
-  })
+  });
 
   const submitForm = async (data: FieldValues) => {
     try {
-      const result = await dispatch(signInUserAsync(data))
+      const result = await dispatch(signInUserAsync(data));
       if (result.meta.requestStatus === "fulfilled") {
-        toast.success("Login successful! Welcome!")
-        navigate(location.state?.from || "/dashboard")
+        toast.success("Login successful! Welcome!");
+        navigate(location.state?.from || "/dashboard");
       } else {
-        console.log("Dispatch was not successful")
+        console.log("Dispatch was not successful");
       }
     } catch (error) {
-      console.log("error:", error)
+      console.log("error:", error);
     }
-  }
+  };
 
   return (
     <div className="bg-bkg-1 w-full min-h-screen flex items-center justify-center p-4">
@@ -98,7 +98,7 @@ export default function SignIn() {
               backgroundColor: "rgb(39,194,232)",
               color: "black",
               "&:hover": {
-                backgroundColor: "rgb(71,204,237)", // Light red on hover
+                backgroundColor: "rgb(71,204,237)",
               },
             }}
           >
@@ -107,5 +107,5 @@ export default function SignIn() {
         </Box>
       </div>
     </div>
-  )
+  );
 }
