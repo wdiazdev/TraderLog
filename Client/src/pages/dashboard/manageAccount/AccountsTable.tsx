@@ -1,4 +1,4 @@
-import { LoadingButton } from "@mui/lab";
+import { LoadingButton } from "@mui/lab"
 import {
   TableContainer,
   Paper,
@@ -7,31 +7,32 @@ import {
   TableRow,
   TableCell,
   TableBody,
-} from "@mui/material";
-import formatDate from "../../../helper/formatDate";
-import formatToCurrency from "../../../helper/formatToCurrency";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import { useAppDispatch } from "../../../app/store/configureStore";
+} from "@mui/material"
+import formatDate from "../../../helper/formatDate"
+import formatToCurrency from "../../../helper/formatToCurrency"
+import DeleteIcon from "@mui/icons-material/Delete"
+import EditIcon from "@mui/icons-material/Edit"
+import { useAppDispatch } from "../../../app/store/configureStore"
 import {
   deleteTradeAccountAsync,
   fetchTradeAccountsAsync,
-} from "../../../app/store/tradeAccountsSlice";
-import { TradeAccount } from "../../../model/tradeAccounts";
+} from "../../../app/store/tradeAccountsSlice"
+import { TradeAccount } from "../../../model/tradeAccounts"
+import truncateString from "../../../helper/truncateString"
 
 type Props = {
-  accounts: TradeAccount[];
-  status: string;
-  onEdit: (account: TradeAccount) => void;
-};
+  accounts: TradeAccount[]
+  status: string
+  handleEditAccount: (account: TradeAccount) => void
+}
 
-export default function AccountsTable({ accounts, status, onEdit }: Props) {
-  const dispatch = useAppDispatch();
+export default function AccountsTable({ accounts, status, handleEditAccount }: Props) {
+  const dispatch = useAppDispatch()
 
   const handleDeleteAccount = async (account: TradeAccount) => {
-    await dispatch(deleteTradeAccountAsync({ accountId: account.id }));
-    await dispatch(fetchTradeAccountsAsync());
-  };
+    await dispatch(deleteTradeAccountAsync({ accountId: account.id }))
+    await dispatch(fetchTradeAccountsAsync())
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -39,6 +40,9 @@ export default function AccountsTable({ accounts, status, onEdit }: Props) {
         <TableHead className="bg-bkg-2">
           <TableRow>
             <TableCell sx={{ color: "white" }}>Name</TableCell>
+            <TableCell align="center" sx={{ color: "white" }}>
+              Nickname
+            </TableCell>
             <TableCell align="center" sx={{ color: "white" }}>
               Created Date
             </TableCell>
@@ -51,12 +55,10 @@ export default function AccountsTable({ accounts, status, onEdit }: Props) {
         </TableHead>
         <TableBody>
           {accounts.map((account) => (
-            <TableRow
-              key={account.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row" className="bg-container">
-                {account.name}
+            <TableRow key={account.id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableCell className="bg-container">{account.name}</TableCell>
+              <TableCell align="center" className="bg-container">
+                {truncateString(account.nickname, 20)}
               </TableCell>
               <TableCell align="center" className="bg-container">
                 {formatDate(account.createdDate)}
@@ -65,7 +67,7 @@ export default function AccountsTable({ accounts, status, onEdit }: Props) {
                 {formatToCurrency(account.balance)}
               </TableCell>
               <TableCell align="center" className="bg-container">
-                <button type="button" onClick={() => onEdit(account)}>
+                <button type="button" onClick={() => handleEditAccount(account)}>
                   <EditIcon />
                 </button>
               </TableCell>
@@ -90,5 +92,5 @@ export default function AccountsTable({ accounts, status, onEdit }: Props) {
         </TableBody>
       </Table>
     </TableContainer>
-  );
+  )
 }

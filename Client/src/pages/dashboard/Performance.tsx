@@ -1,44 +1,40 @@
-import { useEffect, useState } from "react";
-import { useAppSelector } from "../../app/store/configureStore";
-import PerformanceWidget from "../../components/PerformanceWidget";
-import ScreenLoader from "../../components/ScreenLoader";
-import Select from "react-select";
-import formatToCurrency from "../../helper/formatToCurrency";
+import { useEffect, useState } from "react"
+import { useAppSelector } from "../../app/store/configureStore"
+import PerformanceWidget from "../../components/PerformanceWidget"
+import ScreenLoader from "../../components/ScreenLoader"
+import Select from "react-select"
+import formatToCurrency from "../../helper/formatToCurrency"
 
 type AccountOption = {
-  label: string;
-  value: number;
-};
+  label: string
+  value: number
+}
 
 export default function Performance() {
-  const { status, accounts } = useAppSelector((state) => state.tradeAccounts);
+  const { status, accounts } = useAppSelector((state) => state.tradeAccounts)
 
-  const [selectedAccount, setSelectedAccount] = useState<AccountOption | null>(
-    null
-  );
+  const [selectedAccount, setSelectedAccount] = useState<AccountOption | null>(null)
 
   useEffect(() => {
     if (accounts?.length && status === "idle") {
       setSelectedAccount({
         label: accounts[0].name,
         value: accounts[0].id,
-      });
+      })
     }
-  }, [accounts, status]);
+  }, [accounts, status])
 
   const accountOptions =
     accounts?.map((a) => ({
       label: a.name,
       value: a.id,
-    })) || [];
+    })) || []
 
   const handleAccountChange = (selectedOption: AccountOption | null) => {
-    setSelectedAccount(selectedOption);
-  };
+    setSelectedAccount(selectedOption)
+  }
 
-  const renderSelectedAccount = accounts?.find(
-    (account) => account.id === selectedAccount?.value
-  );
+  const renderSelectedAccount = accounts?.find((account) => account.id === selectedAccount?.value)
 
   return (
     <>
@@ -59,9 +55,7 @@ export default function Performance() {
           {renderSelectedAccount && (
             <>
               <div className="flex items-center justify-start gap-4 w-full">
-                <h2 className="text-white">
-                  Account : {renderSelectedAccount.name}
-                </h2>
+                <h3 className="text-white text-[22px]">Account: {renderSelectedAccount.name}</h3>
               </div>
               <div className="flex justify-between items-center gap-6 w-auto">
                 <PerformanceWidget
@@ -77,11 +71,10 @@ export default function Performance() {
       ) : (
         <div className="flex justify-center items-center h-full p-4">
           <p className="text-white">
-            Oops! No accounts found linked to your profile. Please create a new
-            account.
+            Oops! No accounts found linked to your profile. Please create a new account.
           </p>
         </div>
       )}
     </>
-  );
+  )
 }
